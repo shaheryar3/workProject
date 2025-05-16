@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .result { border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; border-radius: 4px; }
+        .back-link { margin-top: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>Results for "{{ query }}"</h1>
+    {% if results %}
+        {% for r in results %}
+            <div class="result">
+                <strong>{{ r.test_id }}</strong><br>
+                {{ r.acceptance_criteria }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    <a class="back-link" href="{{ url_for('index') }}">Back to Search</a>
+</body>
+</html>
