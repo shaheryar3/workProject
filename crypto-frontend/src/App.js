@@ -31,6 +31,7 @@ function App() {
   }, []);
 
   const formatPrice = (price) => {
+    if (!price || isNaN(price)) return 'N/A';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -40,6 +41,7 @@ function App() {
   };
 
   const formatMarketCap = (marketCap) => {
+    if (!marketCap || isNaN(marketCap)) return 'N/A';
     if (marketCap >= 1e12) {
       return `$${(marketCap / 1e12).toFixed(2)}T`;
     } else if (marketCap >= 1e9) {
@@ -51,7 +53,7 @@ function App() {
   };
 
   const formatPercentageChange = (change) => {
-    if (change === null || change === undefined) return 'N/A';
+    if (change === null || change === undefined || isNaN(change)) return 'N/A';
     const sign = change >= 0 ? '+' : '';
     return `${sign}${change.toFixed(2)}%`;
   };
@@ -104,20 +106,20 @@ function App() {
                 </div>
               </div>
               <div className="crypto-rank">
-                #{crypto.marketCapRank}
+                #{crypto.market_cap_rank || 'N/A'}
               </div>
             </div>
             
             <div className="crypto-price">
-              {formatPrice(crypto.currentPrice)}
+              {formatPrice(crypto.current_price)}
             </div>
             
-            <div className={`crypto-change ${crypto.priceChangePercentage24h >= 0 ? 'positive' : 'negative'}`}>
-              {formatPercentageChange(crypto.priceChangePercentage24h)} (24h)
+            <div className={`crypto-change ${(crypto.price_change_percentage_24h || 0) >= 0 ? 'positive' : 'negative'}`}>
+              {formatPercentageChange(crypto.price_change_percentage_24h)} (24h)
             </div>
             
             <div className="crypto-market-cap">
-              Market Cap: {formatMarketCap(crypto.marketCap)}
+              Market Cap: {formatMarketCap(crypto.market_cap)}
             </div>
           </div>
         ))}
